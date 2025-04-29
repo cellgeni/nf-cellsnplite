@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -euo pipefail
+
+nextflow run main.nf \
+  -entry "2step" \
+  --SAMPLEFILE samples.tsv \
+  --project_tag test \
+  --ansi-log false \
+  -resume

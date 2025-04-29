@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -euo pipefail
+
+nextflow run main.nf \
+  -entry "1a-only" \
+  --SAMPLEFILE samples_atac_min1.tsv \
+  --project_tag atactest2 \
+  --minCOUNT 1 \
+  --UMItag None \
+  --ansi-log false \

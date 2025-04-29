@@ -1,0 +1,2 @@
+samp1	/path/to/Aligned.sortedByCoord.out.bam	/path/to/barcodes.tsv.gz
+samp2	/path/to/Aligned.sortedByCoord.out.bam	/path/to/barcodes.tsv.gz
