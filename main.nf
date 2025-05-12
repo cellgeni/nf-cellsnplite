@@ -8,13 +8,14 @@ process MODE_2B {
   tuple val(sampleID), path(bam), path(barcodes), path(bai)
 
   output:
-  tuple val(sampleID), path(bam), path(barcodes), path(bai), path("${sampleID}/*.vcf.gz")
+  tuple val(sampleID), path(bam), path(barcodes), path(bai), path("${sampleID}/*.vcf.gz*")
   path("${sampleID}/*.tsv")
   path("${sampleID}/*.mtx")
 
   script:
   """
   cellsnp-lite -s ${bam} -O ${sampleID} -p 10 --minMAF ${params.minMAF} --minCOUNT ${params.minCOUNT} --cellTAG None --UMItag ${params.UMItag} --gzip
+  tabix -p vcf ${sampleID}/cellSNP.base.vcf.gz 
   """
 }
 
@@ -23,7 +24,7 @@ process MODE_1A {
   publishDir "${launchDir}/cellsnplite-results-${params.project_tag}/step2", mode: 'copy'
 
   input:
-  tuple val(sampleID), path(bam), path(barcodes), path(bai), path(vcf)
+  tuple val(sampleID), path(bam), path(barcodes), path(bai), path(vcf), path(vcf_tbi)
 
   output:
   path("${sampleID}/*.vcf.gz")
@@ -31,9 +32,8 @@ process MODE_1A {
   path("${sampleID}/*.mtx")
 
   script:
-  def genotype_flag = params.genotype ? '--genotype' : ''
   """
-  cellsnp-lite -s ${bam} -b ${barcodes} -O ${sampleID} -R ${vcf} -p 10 --minMAF ${params.minMAF} --minCOUNT ${params.minCOUNT} --cellTAG ${params.cellTAG} --UMItag ${params.UMItag} ${genotype_flag} --gzip
+  cellsnp-lite -s ${bam} -b ${barcodes} -O ${sampleID} -R ${vcf} -p 10 --minMAF ${params.minMAF} --minCOUNT ${params.minCOUNT} --cellTAG ${params.cellTAG} --UMItag ${params.UMItag} ${params.genotype ? '--genotype' : ''} --gzip
   """
 }
 
@@ -52,9 +52,8 @@ process MODE_2A {
   path("${sampleID}/*.mtx")
 
   script:
-  def genotype_flag = params.genotype ? '--genotype' : ''
   """
-  cellsnp-lite -s ${bam} -b ${barcodes} -O ${sampleID} -p 10 --minMAF ${params.minMAF} --minCOUNT ${params.minCOUNT} ${genotype_flag} --gzip
+  cellsnp-lite -s ${bam} -b ${barcodes} -O ${sampleID} -p 10 --minMAF ${params.minMAF} --minCOUNT ${params.minCOUNT} ${params.genotype ? '--genotype' : ''} --gzip
   """
 }
 
