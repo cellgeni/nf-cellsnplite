@@ -32,6 +32,20 @@ The recommended way to use nextflow is to run it in a screen session. These step
 * `--UMItag` - Tag for UMI: one of UB, Auto, None. Default is Auto for the tool, and UB for the nextflow pipeline
 
 
+## Profiles
+
+This pipeline supports multiple configuration profiles (e.g., `rna`, `atac`) defined in `nextflow.config`.
+To select a profile, use the `-profile` option with the `nextflow run` command:
+```
+nextflow run cellgeni/nf-cellsnplite -r main -profile rna
+```
+or
+```
+nextflow run cellgeni/nf-cellsnplite -r main -profile atac
+```
+
+You should specify a profile, otherwise it will fail.
+
 ## Workflow
 
 ![](images/nf-cellsnplite-light.png#gh-light-mode-only)

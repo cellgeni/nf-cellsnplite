@@ -7,4 +7,5 @@ nextflow run main.nf \
   --SAMPLEFILE samples.tsv \
   --project_tag test \
   --ansi-log false \
+  --profile atac \
   -resume
