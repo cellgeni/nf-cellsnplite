@@ -14,7 +14,7 @@ process MODE_2B {
 
   script:
   """
-  cellsnp-lite -s ${bam} -O ${sampleID} -p 10 --minMAF ${params.minMAF} --minCOUNT ${params.minCOUNT} --cellTAG None --UMItag ${params.UMItag} --gzip
+  cellsnp-lite -s ${bam} -O ${sampleID} -p 10 --minMAF ${params.minMAF} --minCOUNT ${params.minCOUNT} --cellTAG None --UMItag ${params.UMItag} ${params.refseq ? "-f ${params.refseq_path}" : ""} --gzip
   tabix -p vcf ${sampleID}/cellSNP.base.vcf.gz 
   """
 }
