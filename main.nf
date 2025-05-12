@@ -83,3 +83,11 @@ workflow '1a-only' {
        .set { row }
   MODE_1A(row)
 }
+
+workflow '2b-only' {
+  Channel.fromPath("${params.SAMPLEFILE}")
+       .splitCsv(header: ['sampleID', 'bam', 'barcodes', 'vcf'], sep: '\t')
+       .map { row -> tuple(row.sampleID, file(row.bam), file(row.barcodes), file(row.bam + '.bai'), file(row.vcf)) }
+       .set { row }
+  MODE_2B(row)
+}
